@@ -8,6 +8,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig({
   plugins: [
     vue(),
+    // vueJsx(),  // Enable Vue JSX plugin
     vueDevTools(),
   ],
   resolve: {

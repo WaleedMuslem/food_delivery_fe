@@ -50,10 +50,29 @@ const routes = [
     }
   },
   {
+    name: 'supplierByCategory',
+    path: '/supplier/category/:categoryId',
+    component: () => import('@/views/menu.vue'),
+    beforeEnter: (to, from, next) => {
+      const auth = useAuthStore();
+      if (auth.isLoggedIn) {
+        next();
+      } else {
+        next({ name: 'login' }); // Redirect to the login route
+      }
+    }
+  },
+  {
     name: '404',
     path: '/404',
     component: () => import('@/views/404.vue'),
   },
+  // Catch-all route for 404
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/404.vue'),
+  }
   
 ]
 

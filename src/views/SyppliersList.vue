@@ -8,6 +8,7 @@ import Suppliers from '@/components/Suppliers.vue';
 
 <Categories/>
 <Suppliers/>
+
 </template>
 
 <style scoped>

@@ -1,4 +1,5 @@
 // stores/auth.js
+import router from '@/router/router';
 import { defineStore } from 'pinia';
 
 export const useAuthStore = defineStore('auth', {
@@ -27,34 +28,63 @@ export const useAuthStore = defineStore('auth', {
     strategies: [
       {
         key: 'auth',
-        storage: localStorage,
+        storage: sessionStorage,
       },
     ],
   },
 });
 
 // Function to refresh the access token
+// export async function refreshAccessToken() {
+//   try {
+//       const response = await fetch('https://localhost:8080/refresh', {
+//           method: 'POST',
+//           credentials: 'include', // Ensure cookies are included in the request
+//       });
+
+//       if (response.status == 401) {
+//         router.push({name:'login'})
+//       }
+//       const data = await response.json();
+
+//       // Access Pinia store and set the new access token
+//       const authStore = useAuthStore();
+//       authStore.setAccessToken(data.accessToken);
+//   } catch (error) {
+//       console.error('Failed to refresh access token', error);
+//       throw error;
+//   }
+// }
+
 export async function refreshAccessToken() {
   try {
-      const response = await fetch('https://localhost:8080/refresh', {
-          method: 'GET',
-          credentials: 'include', // Ensure cookies are included in the request
-      });
+    const response = await fetch('https://localhost:8080/refresh', {
+      method: 'POST',
+      credentials: 'include',
+    });
 
-      if (!response.ok) {
-          throw new Error('Failed to refresh token');
-      }
-
-      const data = await response.json();
-
-      // Access Pinia store and set the new access token
+    if (!response.ok) {
       const authStore = useAuthStore();
-      authStore.setAccessToken(data.accessToken);
+      authStore.logout();
+      router.push({ name: 'login' });  // Redirect to login
+      throw new Error('Failed to refresh token');
+    }
+
+    const data = await response.json();
+
+    // Access Pinia store and set the new access token
+    const authStore = useAuthStore();
+    authStore.setAccessToken(data.accessToken);
+
   } catch (error) {
-      console.error('Failed to refresh access token', error);
-      throw error;
+    console.error('Failed to refresh access token', error);
+    const authStore = useAuthStore();
+    authStore.logout();
+    router.push({ name: 'login' });  // Ensure redirect if an error occurs
+    throw error;
   }
 }
+
 
 // Function to make authenticated requests
 export async function fetchWithAuth(url, options = {}) {

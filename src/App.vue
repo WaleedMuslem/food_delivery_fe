@@ -1,6 +1,6 @@
 <script setup>
-import Scrol from './components/Scrol.vue';
 import NavBar from './components/NavBar1.vue';
+import Cart from './views/Cart.vue';
 // import {getAccessToken, isLoggedin, setAccessToken, setLoggedin } from '@/utility/auth'; // Adjust the path as needed
 
 </script>
@@ -8,8 +8,9 @@ import NavBar from './components/NavBar1.vue';
 <template>
 
 <NavBar/>
+<Cart/>
 
-  <!-- <Scrol/> -->
+
   <router-view/>
 
 </template>
