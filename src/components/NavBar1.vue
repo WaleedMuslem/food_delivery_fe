@@ -78,9 +78,11 @@ function openCart() {
             </DisclosureButton>
           </div>
           <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+            <router-link :to="{name:'home'}">
             <div class="flex flex-shrink-0 items-center">
               <img class="h-16 w-auto" src="../assets/logo.png" alt="Waleed" />
             </div>
+          </router-link>
             <!-- <div class="hidden sm:ml-6 sm:block mt-1.5">
             <div class="flex items-center space-x-8">
                 <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ?  'text-black-300 hover:bg-primeColor-900 hover:text-white': 'text-black-300 hover:bg-primeColor-900 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium self-end mt-2']" :aria-current="item.current ? 'page' : undefined" style="text-decoration: none">

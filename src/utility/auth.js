@@ -123,7 +123,13 @@ export async function fetchWithAuth(url, options = {}) {
           throw new Error('Request failed');
       }
 
-      return response.json();
+      if (response.headers.get('content-length') !== '0') {
+        return response.json();
+    } else {
+      return response;
+
+    }
+
   } catch (error) {
       console.error('Fetch failed', error);
       throw error;

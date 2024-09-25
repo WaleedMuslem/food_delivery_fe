@@ -50,9 +50,22 @@ const routes = [
     }
   },
   {
-    name: 'supplierByCategory',
+    name: 'itemsbyCategory',
     path: '/supplier/category/:categoryId',
     component: () => import('@/views/menu.vue'),
+    beforeEnter: (to, from, next) => {
+      const auth = useAuthStore();
+      if (auth.isLoggedIn) {
+        next();
+      } else {
+        next({ name: 'login' }); // Redirect to the login route
+      }
+    }
+  },
+  {
+    name: 'itemsBySupplier',
+    path: '/supplier/:supplierId/menu',
+    component: () => import('@/views/MenuBySupplier.vue'),
     beforeEnter: (to, from, next) => {
       const auth = useAuthStore();
       if (auth.isLoggedIn) {

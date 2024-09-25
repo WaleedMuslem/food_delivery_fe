@@ -50,7 +50,7 @@
   import { useRoute } from 'vue-router'
   
   const route = useRoute()
-  const id = route.params.categoryId
+  const id = route.params.supplierId
   const menu = ref([])
   
   // Quantities object to track the number of items added to the cart
@@ -59,7 +59,9 @@
   // Fetch menu data from the API
   const fetchMenu = async () => {
     try {
-      const response = await fetchWithAuth(`https://localhost:8080/menu/category/${id}`)
+      const response = await fetchWithAuth(`https://localhost:8080/supplier/${id}/menu`)
+
+      console.log(id)
       menu.value = response
     } catch (error) {
       console.error('Error fetching menu:', error)

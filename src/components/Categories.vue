@@ -7,7 +7,7 @@
         <div class="flex space-x-6">
           <div v-for="category in categories" :key="category.category_id" class="group relative min-w-[250px]">
             <router-link
-              :to="{ name: 'supplierByCategory', params: { categoryId: category.category_id }}"
+              :to="{ name: 'itemsbyCategory', params: { categoryId: category.category_id }}"
               class="block"
             >
               <div class="relative aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
