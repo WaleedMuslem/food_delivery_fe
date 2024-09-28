@@ -76,6 +76,58 @@ const routes = [
     }
   },
   {
+    name: 'address',
+    path: '/address',
+    component: () => import('@/views/Address.vue'),
+    beforeEnter: (to, from, next) => {
+      const auth = useAuthStore();
+      if (auth.isLoggedIn) {
+        next();
+      } else {
+        next({ name: 'login' }); // Redirect to the login route
+      }
+    }
+  },
+  {
+    name: 'checkout',
+    path: '/checkout',
+    component: () => import('@/views/Checkout.vue'),
+    beforeEnter: (to, from, next) => {
+      const auth = useAuthStore();
+      if (auth.isLoggedIn) {
+        next();
+      } else {
+        next({ name: 'login' }); // Redirect to the login route
+      }
+    }
+  },
+  {
+    name: 'myorders',
+    path: '/myorders',
+    component: () => import('@/views/MyOrders.vue'),
+    beforeEnter: (to, from, next) => {
+      const auth = useAuthStore();
+      if (auth.isLoggedIn) {
+        next();
+      } else {
+        next({ name: 'login' }); // Redirect to the login route
+      }
+    }
+  },
+  {
+    name: 'orderdetails',
+    path: '/myorders/:orderId',
+    component: () => import('@/views/OrderDetails.vue'),
+    beforeEnter: (to, from, next) => {
+      const auth = useAuthStore();
+      if (auth.isLoggedIn) {
+        next();
+      } else {
+        next({ name: 'login' }); // Redirect to the login route
+      }
+    }
+  },
+  {
     name: '404',
     path: '/404',
     component: () => import('@/views/404.vue'),

@@ -1,14 +1,15 @@
 <script setup>
 import NavBar from './components/NavBar1.vue';
 import Cart from './views/Cart.vue';
-// import {getAccessToken, isLoggedin, setAccessToken, setLoggedin } from '@/utility/auth'; // Adjust the path as needed
+import { useAuthStore } from './utility/auth';
 
+const authStore = useAuthStore()
 </script>
 
 <template>
 
 <NavBar/>
-<Cart/>
+<Cart v-if="authStore.isAuthenticated"/>
 
 
   <router-view/>

@@ -119,8 +119,10 @@ function openCart() {
                     <a href="#" :class="[active ? 'text-black-300 hover:bg-primeColor-900 hover:text-white' : '', 'block px-4 py-2 text-sm text-gray-700']" style="text-decoration: none;">Profile</a>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
-                      <a href="#" :class="[active ? 'text-black-300 hover:bg-primeColor-900 hover:text-white' : '', 'block px-4 py-2 text-sm text-gray-700']" style="text-decoration: none;">My Orders</a>
-                  </MenuItem>
+                    <router-link :to="{name:'myorders'}" style="text-decoration: none;">
+                        <a href="#" :class="[active ? 'text-black-300 hover:bg-primeColor-900 hover:text-white' : '', 'block px-4 py-2 text-sm text-gray-700']" style="text-decoration: none;">My Orders</a>
+                      </router-link>
+                    </MenuItem>
                   <MenuItem v-slot="{ active }">
                     <a href="#" @click.prevent="logout" :class="[active ? 'text-black-300 hover:bg-primeColor-900 hover:text-white' : '', 'block px-4 py-2 text-sm text-gray-700']" style="text-decoration: none;">Sign out</a>
                   </MenuItem>

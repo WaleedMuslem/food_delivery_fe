@@ -45,6 +45,8 @@ const handleSubmit = async () => {
     const loginData = await response.json();
     authStore.setAccessToken(loginData.access_token)
     authStore.setLoggedIn(true); 
+    localStorage.setItem('cart_id',loginData.cart_id);
+
     console.log(authStore.getAccessToken); // Log the stored token
 
     // setAccessToken(loginData.access_token);

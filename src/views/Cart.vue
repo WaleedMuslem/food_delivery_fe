@@ -60,9 +60,11 @@
                       </div>
                       <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
 
+                      <router-link :to="{name: 'address'}">
                       <div class="mt-6">
-                        <a href="#" class="flex items-center justify-center mt-5 px-6 py-3 bg-blue-500 text-white font-semibold rounded-full shadow-lg hover:bg-blue-600">Checkout</a>
+                        <a href="#" class="flex items-center justify-center mt-5 px-6 py-3 bg-blue-500 text-white font-semibold rounded-full shadow-lg hover:bg-blue-600" @click="closeCart">Checkout</a>
                       </div>
+                    </router-link>
                       <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
                           or{{ ' ' }}
@@ -87,6 +89,7 @@
   import { ref, watch, onMounted } from 'vue'
   import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
   import eventBus from '@/utility/cart';
+  import { eventCart } from '@/utility/cart';
   import { fetchWithAuth } from '@/utility/auth'
 
   
@@ -97,6 +100,10 @@
   watch(eventBus.openCart, (newValue) => {
     open.value = newValue; // Update local state based on event bus state
   });
+
+  // watch(eventBus.openCart, (newValue) => {
+  //   open.value = newValue; // Update local state based on event bus state
+  // });
   
   // Function to close the cart
   function closeCart() {
@@ -105,19 +112,26 @@
   }
 
   // Function to calculate the cart total
-function calculateCartTotal() {
-  cartTotal.value = products.value.reduce((total, product) => {
-    return total + product.total_price;
-  }, 0);
+  function calculateCartTotal() {
+  cartTotal.value = 0;  // Initialize the cart total to 0
+
+  for (let i = 0; i < products.value.length; i++) {
+    cartTotal.value += products.value[i].total_price;  // Add each product's total_price to cartTotal
+  }
+  cartTotal.value = parseFloat(cartTotal.value.toFixed(2));
+
 }
   
   // Fetch cart data from backend API
   async function fetchCartData() {
     try {
-      const response = await await fetchWithAuth('https://localhost:8080/cart/getCart');  // Adjust the URL to match your backend API endpoint
+      const response = await fetchWithAuth('https://localhost:8080/cart/getCart');  // Adjust the URL to match your backend API endpoint
       // console.log(response.Items)
       products.value = response.Items;  // Assuming the response contains an array of cart itemsc
 
+    //   cartTotal.value = computed(() => {
+    //   return products.value.reduce((total, product) => total + product.total_price, 0)
+    //  })
       calculateCartTotal();
 
       console.log(products.value)
@@ -141,15 +155,21 @@ function calculateCartTotal() {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    fetchCartData();  // Refresh the cart after removing the item
+    await fetchCartData();  // Refresh the cart after removing the item
   } catch (error) {
     console.error('Error removing product:', error);
   }
+}
+
+// Listen for the refreshCart event
+function listenForCartRefresh() {
+  eventCart.refreshCart = fetchCartData; // Assign the fetch function to the event bus
 }
   
   // Fetch cart data when the component is mounted
   onMounted(() => {
     fetchCartData();
+    listenForCartRefresh(); // Set up listener for cart refresh
   });
   </script>
   

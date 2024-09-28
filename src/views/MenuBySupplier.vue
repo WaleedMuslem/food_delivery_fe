@@ -22,18 +22,18 @@
             <!-- Supplier Image (on the right) -->
             <div class="w-full sm:w-1/2 mt-4 sm:mt-0 sm:ml-4">
               <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75">
-                <img :src="item.image" :alt="item.image" class="h-full w-full object-cover object-center" />
+                <img :alt="item.image" class="h-full w-full object-cover object-center" />
               </div>
   
               <!-- Quantity Selector -->
               <div class="mt-4 flex items-center justify-between space-x-4">
                 <button 
-                  @click="decreaseQuantity(item.ID)" 
+                  @click="decreaseQuantity(item.ID,item.price)" 
                   class="px-3 py-1 bg-gray-300 rounded-md hover:bg-gray-400"
                 >-</button>
-                <span class="text-lg">{{ quantities[item.ID] || 0 }}</span>
+                <span class="text-lg">{{ item.quantity || 0 }}</span>
                 <button 
-                  @click="increaseQuantity(item.ID)" 
+                  @click="increaseQuantity(item.ID,item.price)" 
                   class="px-3 py-1 bg-gray-300 rounded-md hover:bg-gray-400"
                 >+</button>
               </div>
@@ -48,10 +48,14 @@
   import { ref, onMounted } from 'vue'
   import { fetchWithAuth } from '@/utility/auth'
   import { useRoute } from 'vue-router'
+  import { eventCart } from '@/utility/cart';
+
   
   const route = useRoute()
   const id = route.params.supplierId
   const menu = ref([])
+  const cartID = localStorage.getItem('cart_id');
+
   
   // Quantities object to track the number of items added to the cart
   const quantities = ref({})
@@ -69,19 +73,59 @@
   }
   
   // Function to increase quantity of an item
-  const increaseQuantity = (id) => {
-    if (!quantities.value[id]) {
-      quantities.value[id] = 0
-    }
-    quantities.value[id]++
+  const increaseQuantity = async (id, price) => {
+  if (!quantities.value[id]) {
+    quantities.value[id] = 0
   }
+  quantities.value[id]++
+
+  try {
+    // Send API request to add item to the cart
+    await fetchWithAuth('https://localhost:8080/cart/additem', {
+      method: 'POST',
+      body: JSON.stringify({
+        product_id: id,
+        quantity: quantities.value[id],
+        cart_id: parseInt(cartID,10),
+        price: price
+      })
+    })
+    console.log(`Item ${id} added to cart.`)
+    eventCart.refreshCart(); // Trigger refresh event
+    await fetchMenu()
+
+    // await fetchCartData()
+  } catch (error) {
+    console.error('Error adding item to cart:', error)
+  }
+}
   
   // Function to decrease quantity of an item
-  const decreaseQuantity = (id) => {
-    if (quantities.value[id] > 0) {
-      quantities.value[id]--
+  const decreaseQuantity = async (id, price) => {
+  if (quantities.value[id] > 0) {
+    quantities.value[id]--
+
+    try {
+      // Send API request to remove item from the cart
+      await fetchWithAuth('https://localhost:8080/cart/additem', {
+        method: 'POST',
+        body: JSON.stringify({
+          product_id: id,
+          quantity: quantities.value[id],
+          cart_id: parseInt(cartID,10),
+          price: price
+        })
+      })
+      console.log(`Item ${id} removed from cart.`)
+      eventCart.refreshCart(); // Trigger refresh event
+      await fetchMenu()
+
+      
+    } catch (error) {
+      console.error('Error removing item from cart:', error)
     }
   }
+}
   
   onMounted(() => {
     fetchMenu()
