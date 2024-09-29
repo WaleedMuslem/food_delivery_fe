@@ -62,7 +62,7 @@ const quantities = ref({})
 // Fetch menu data from the API
 const fetchMenu = async () => {
   try {
-    const response = await fetchWithAuth(`https://localhost:8080/menu/category/${id}`)
+    const response = await fetchWithAuth(`https://localhost:443/api/menu/category/${id}`)
     menu.value = response
     // console.log(menu)
   } catch (error) {
@@ -79,7 +79,7 @@ const increaseQuantity = async (id, price) => {
 
   try {
     // Send API request to add item to the cart
-    await fetchWithAuth('https://localhost:8080/cart/additem', {
+    await fetchWithAuth('https://localhost:443/api/cart/additem', {
       method: 'POST',
       body: JSON.stringify({
         product_id: id,
@@ -106,7 +106,7 @@ const decreaseQuantity = async (id, price) => {
     try {
 
       if (quantities.value[id] == 0){
-        const response = await fetchWithAuth(`https://localhost:8080/cart/removeItem`,{
+        const response = await fetchWithAuth(`https://localhost:443/api/cart/removeItem`,{
             method: 'POST',                  // Set the HTTP method (POST, PUT, etc.)
             body: JSON.stringify({
               cart_id: parseInt(cartID,10),
@@ -117,7 +117,7 @@ const decreaseQuantity = async (id, price) => {
         await fetchMenu()
       } else{
       // Send API request to remove item from the cart
-      await fetchWithAuth('https://localhost:8080/cart/additem', {
+      await fetchWithAuth('https://localhost:443/api/cart/additem', {
         method: 'POST',
         body: JSON.stringify({
           product_id: id,

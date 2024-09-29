@@ -100,7 +100,7 @@
     errorMessage.value = '' // Clear the error message
   
     try {
-      const response = await fetchWithAuth('https://localhost:8080/address', {
+      const response = await fetchWithAuth('https://localhost:443/api/address', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

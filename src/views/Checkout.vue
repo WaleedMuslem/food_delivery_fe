@@ -88,7 +88,7 @@
   const fetchAddressAndCart = async () => {
     try {
       // Fetch address
-      const addressResponse = await fetchWithAuth('https://localhost:8080/address', {
+      const addressResponse = await fetchWithAuth('https://localhost:443/api/address', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       })
@@ -96,7 +96,7 @@
 
   
       // Fetch cart
-      const cartResponse = await fetchWithAuth('https://localhost:8080/cart/getCart', {
+      const cartResponse = await fetchWithAuth('https://localhost:443/api/cart/getCart', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       })
@@ -123,7 +123,7 @@
 
 const confirmPurchase = async () => {
   try {
-    const purchaseResponse = await fetchWithAuth('https://localhost:8080/cart/checkout', {
+    const purchaseResponse = await fetchWithAuth('https://localhost:443/api/cart/checkout', {
       method: 'POST',
       body: JSON.stringify({
         cart_id: parseInt(cartID,10),

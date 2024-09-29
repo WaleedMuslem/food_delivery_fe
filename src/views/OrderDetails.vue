@@ -15,7 +15,7 @@ const address = ref(null)
 // Fetch the order details from the backend
 const fetchOrderDetails = async () => {
   try {
-    const response = await fetchWithAuth(`https://localhost:8080/orders/${orderId}`); // Adjust the API endpoint accordingly
+    const response = await fetchWithAuth(`https://localhost:443/api/orders/${orderId}`); // Adjust the API endpoint accordingly
     order.value = response; // Store the order details in the reactive variable
     console.log(order)
   } catch (error) {
@@ -25,7 +25,7 @@ const fetchOrderDetails = async () => {
 const fetchAddressAndCart = async () => {
     try {
       // Fetch address
-      const addressResponse = await fetchWithAuth('https://localhost:8080/address', {
+      const addressResponse = await fetchWithAuth('https://localhost:443/api/address', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       })

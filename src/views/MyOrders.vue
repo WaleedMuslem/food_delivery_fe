@@ -8,7 +8,7 @@ const orders = ref([]);
 // Fetch the orders when the component is mounted
 const fetchOrders = async () => {
   try {
-    const response = await fetchWithAuth('https://localhost:8080/orders'); // Adjust the API endpoint accordingly
+    const response = await fetchWithAuth('https://localhost:443/api/orders'); // Adjust the API endpoint accordingly
     orders.value = response; // Store the orders in the reactive variable
     console.log(orders)
   } catch (error) {

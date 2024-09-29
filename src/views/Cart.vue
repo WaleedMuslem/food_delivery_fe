@@ -125,7 +125,7 @@
   // Fetch cart data from backend API
   async function fetchCartData() {
     try {
-      const response = await fetchWithAuth('https://localhost:8080/cart/getCart');  // Adjust the URL to match your backend API endpoint
+      const response = await fetchWithAuth('https://localhost:443/api/cart/getCart');  // Adjust the URL to match your backend API endpoint
       // console.log(response.Items)
       products.value = response.Items;  // Assuming the response contains an array of cart itemsc
 
@@ -142,7 +142,7 @@
 
   async function removeProduct(productId,cart_id) {
   try {
-    const response = await fetchWithAuth(`https://localhost:8080/cart/removeItem`,{
+    const response = await fetchWithAuth(`https://localhost:443/api/cart/removeItem`,{
             method: 'POST',                  // Set the HTTP method (POST, PUT, etc.)
             body: JSON.stringify({
                   cart_id: cart_id,    // Add your actual cart_id value here

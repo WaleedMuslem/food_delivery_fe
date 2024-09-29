@@ -47,7 +47,7 @@ const suppliers = ref([])
 
 const fetchSuppliers = async () => {
   try {
-    const response = await fetchWithAuth('https://localhost:8080/suppliers') // Replace with your actual API endpoint
+    const response = await fetchWithAuth('https://localhost:443/api/suppliers') // Replace with your actual API endpoint
     suppliers.value = response
   } catch (error) {
     console.error('Error fetching suppliers:', error)

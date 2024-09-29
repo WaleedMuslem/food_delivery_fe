@@ -22,7 +22,7 @@ const errorMessage = ref('')
 // Function to handle form submission
 const handleSubmit = async () => {
   try {
-    const response = await fetch('https://localhost:8080/register', {
+    const response = await fetch('https://localhost:443/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -30,7 +30,7 @@ function openCart() {
   const logout = async () => {
    try {
     // Sending a POST request to your backend server's logout route
-    const response = await fetch('https://localhost:8080/logout', {
+    const response = await fetch('https://localhost:443/api/logout', {
       method: 'GET', // or 'GET' depending on your backend implementation
       headers: {
         'Content-Type': 'application/json', // Specify the content type

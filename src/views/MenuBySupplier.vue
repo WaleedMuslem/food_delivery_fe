@@ -63,7 +63,7 @@
   // Fetch menu data from the API
   const fetchMenu = async () => {
     try {
-      const response = await fetchWithAuth(`https://localhost:8080/supplier/${id}/menu`)
+      const response = await fetchWithAuth(`https://localhost:443/api/supplier/${id}/menu`)
 
       console.log(id)
       menu.value = response
@@ -81,7 +81,7 @@
 
   try {
     // Send API request to add item to the cart
-    await fetchWithAuth('https://localhost:8080/cart/additem', {
+    await fetchWithAuth('https://localhost:443/api/cart/additem', {
       method: 'POST',
       body: JSON.stringify({
         product_id: id,
@@ -107,7 +107,7 @@
 
     try {
       // Send API request to remove item from the cart
-      await fetchWithAuth('https://localhost:8080/cart/additem', {
+      await fetchWithAuth('https://localhost:443/api/cart/additem', {
         method: 'POST',
         body: JSON.stringify({
           product_id: id,

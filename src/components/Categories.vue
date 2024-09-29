@@ -39,7 +39,7 @@ const authStore = useAuthStore()
 
 const fetchCategories = async () => {
   try {
-    const response = await fetchWithAuth('https://localhost:8080/categories')
+    const response = await fetchWithAuth('https://localhost:443/api/categories')
     console.log(response)
     categories.value = response
   } catch (error) {

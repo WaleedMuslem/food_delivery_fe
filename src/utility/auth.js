@@ -58,7 +58,7 @@ export const useAuthStore = defineStore('auth', {
 
 export async function refreshAccessToken() {
   try {
-    const response = await fetch('https://localhost:8080/refresh', {
+    const response = await fetch('https://localhost:443/api/refresh', {
       method: 'POST',
       credentials: 'include',
     });
