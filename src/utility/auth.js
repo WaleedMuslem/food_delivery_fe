@@ -5,11 +5,15 @@ import { defineStore } from 'pinia';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     accessToken: null,
+    refreshToken: null,
     isLoggedIn: false,
   }),
   actions: {
     setAccessToken(token) {
       this.accessToken = token;
+    },
+    setRefreshToken(token) {
+      this.refreshToken = token;
     },
     setLoggedIn(status) {
       this.isLoggedIn = status;
@@ -21,6 +25,7 @@ export const useAuthStore = defineStore('auth', {
   },
   getters: {
     getAccessToken: (state) => state.accessToken,
+    getRefreshToken: (state) => state.refreshToken,
     isAuthenticated: (state) => state.isLoggedIn,
   },
   persist: {
@@ -58,9 +63,16 @@ export const useAuthStore = defineStore('auth', {
 
 export async function refreshAccessToken() {
   try {
+    const authStore = useAuthStore();
+    const refresh_token = authStore.getRefreshToken;
+
     const response = await fetch('https://localhost:443/api/refresh', {
       method: 'POST',
       credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ refresh_token }), // Send refresh token as object
     });
 
     if (!response.ok) {
@@ -73,8 +85,8 @@ export async function refreshAccessToken() {
     const data = await response.json();
 
     // Access Pinia store and set the new access token
-    const authStore = useAuthStore();
-    authStore.setAccessToken(data.accessToken);
+    authStore.setAccessToken(data.access_token);
+    authStore.setRefreshToken(data.refresh_token)
 
   } catch (error) {
     console.error('Failed to refresh access token', error);
@@ -113,7 +125,7 @@ export async function fetchWithAuth(url, options = {}) {
               ...options,
               headers: {
                   ...headers,
-                  'Authorization': `Bearer ${authStore.getAccessToken()}`,
+                  'Authorization': `Bearer ${authStore.getAccessToken}`,
               },
               credentials: 'include',
           });

@@ -42,6 +42,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { fetchWithAuth } from '@/utility/auth'
+import { availableStore } from '@/utility/available';
+
+
+const available = availableStore()
 
 const suppliers = ref([])
 
@@ -57,10 +61,16 @@ const fetchSuppliers = async () => {
 // Helper function to determine if the supplier is closed
 const isSupplierClosed = (supplier) => {
   const now = new Date()
-  const currentHour = now.getHours()
+  const currentHour = 13
   const openingHour = parseInt(supplier.workingHours.opening.split(':')[0])
   const closingHour = parseInt(supplier.workingHours.closing.split(':')[0])
 
+  if(currentHour < openingHour || currentHour >= closingHour){
+    available.setClose(true)
+    return true
+  }
+
+  available.setClose(false)
   // If current time is outside of the supplier's working hours, return true (closed)
   return currentHour < openingHour || currentHour >= closingHour
 }

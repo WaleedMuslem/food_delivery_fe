@@ -1,5 +1,7 @@
 import * as VueRouter from 'vue-router'
-import { useAuthStore } from '@/utility/auth'; // Assuming you're using Pinia
+import { useAuthStore } from '@/utility/auth';
+import { availableStore } from '@/utility/available';
+
 
 
 const routes = [
@@ -68,8 +70,10 @@ const routes = [
     component: () => import('@/views/MenuBySupplier.vue'),
     beforeEnter: (to, from, next) => {
       const auth = useAuthStore();
+      const available = availableStore()
       if (auth.isLoggedIn) {
-        next();
+        if(!available.isClosed){
+        next();}
       } else {
         next({ name: 'login' }); // Redirect to the login route
       }

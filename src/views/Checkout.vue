@@ -132,6 +132,8 @@ const confirmPurchase = async () => {
     console.log(purchaseResponse)
 
     localStorage.setItem('cart_id',purchaseResponse);
+    // localStorage.setItem('quantities', JSON.stringify(0))
+
 
     showSuccessAlert.value = true // Display the success message
 

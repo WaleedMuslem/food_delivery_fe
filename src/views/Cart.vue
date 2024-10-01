@@ -26,7 +26,7 @@
                           <ul role="list" class="-my-6 divide-y divide-gray-200">
                             <li v-for="product in products" :key="product.id" class="flex py-6">
                               <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                <img :src="product.image" :alt="product.image" class="h-full w-full object-cover object-center" />
+                                <img :src="product.image" :alt="product.image" class="h-full w-full object-cover object-center" @error="handleImageError"/>
                               </div>
   
                               <div class="ml-4 flex flex-1 flex-col">
@@ -60,7 +60,7 @@
                       </div>
                       <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
 
-                      <router-link :to="{name: 'address'}">
+                      <router-link  v-if="products && products.length != 0" :to="{name: 'address'}">
                       <div class="mt-6">
                         <a href="#" class="flex items-center justify-center mt-5 px-6 py-3 bg-blue-500 text-white font-semibold rounded-full shadow-lg hover:bg-blue-600" @click="closeCart">Checkout</a>
                       </div>
@@ -165,6 +165,10 @@
 function listenForCartRefresh() {
   eventCart.refreshCart = fetchCartData; // Assign the fetch function to the event bus
 }
+
+const handleImageError = (event) => {
+  event.target.src = 'https://cdn.profoto.com/cdn/05238cd/globalassets/tips-and-tricks/profoto-c1-plus-food-photography-anders-hannola.jpg?width=2840&quality=75&format=jpg'; // Placeholder image
+};
   
   // Fetch cart data when the component is mounted
   onMounted(() => {

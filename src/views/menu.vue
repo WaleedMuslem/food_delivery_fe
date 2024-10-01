@@ -21,7 +21,7 @@
           <!-- Item Image -->
           <div class="w-full sm:w-1/2 mt-4 sm:mt-0 sm:ml-4">
             <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75">
-              <img :src="item.image || 'https://via.placeholder.com/150'" :alt="item.image" class="h-full w-full object-cover object-center" />
+              <img :src="item.image || 'https://via.placeholder.com/150'" :alt="item.image" class="h-full w-full object-cover object-center" @error="handleImageError"/>
             </div>
 
             <!-- Quantity Selector -->
@@ -140,6 +140,10 @@ const decreaseQuantity = async (id, price) => {
     console.error('Error removing item from cart:', error)
   }
 }}
+
+const handleImageError = (event) => {
+  event.target.src = 'https://cdn.profoto.com/cdn/05238cd/globalassets/tips-and-tricks/profoto-c1-plus-food-photography-anders-hannola.jpg?width=2840&quality=75&format=jpg'; // Placeholder image
+};
 
 // Fetch menu on component mount
 onMounted(() => {
