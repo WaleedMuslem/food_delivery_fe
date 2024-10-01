@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 
 const headlines = ref([
   "Discover and get great food.",
-  "Order from your favorite restaurants.",
+  "Order from top restaurants.",
   "Fast delivery at your doorstep.",
 ]);
 

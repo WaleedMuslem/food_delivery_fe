@@ -3,7 +3,6 @@
 </script>
 
 <template>
-<div class="spacer"></div>
     <div class="scroller">
       <div class="mask">
         <svg
@@ -30,10 +29,9 @@
         </svg>
       </div>
       <div class="image">
-        <img src="../assets/landing.jpg" alt="Your Image" />
+        <img src="../assets/scroll-img2.jpg" alt="Your Image" />
       </div>
     </div>
-    <div class="spacer"></div>
 </template>
 
 <style>
@@ -75,8 +73,5 @@
         }
       }
 
-      .spacer {
-        height: 30vh;
-      }
 
 </style>

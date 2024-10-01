@@ -131,7 +131,7 @@ function openCart() {
             </Menu>
             <div v-if="authStore.isAuthenticated" @click="openCart" class="inline-flex items-center cursor-pointer ml-4">
                 <img 
-                  src="@/assets/cart-icon.png" 
+                  src="@/assets/cart-icon-2.png" 
                   alt="Cart Logo" 
                   class="h-8 w-8" 
                 />

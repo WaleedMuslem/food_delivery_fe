@@ -10,10 +10,18 @@ const fetchOrders = async () => {
   try {
     const response = await fetchWithAuth('https://localhost:443/api/orders'); // Adjust the API endpoint accordingly
     orders.value = response; // Store the orders in the reactive variable
+    orders.value.sort((a, b) => b.order_id - a.order_id);
     console.log(orders)
   } catch (error) {
     console.error('Failed to fetch orders:', error);
   }
+};
+
+// Function to format the date and time
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    console.log(date.toLocaleString())
+      return date.toLocaleString();
 };
 
 // Fetch the orders when the component is mounted
@@ -41,7 +49,7 @@ onMounted(() => {
           <!-- Loop through the orders and display them -->
           <tr v-for="order in orders" :key="order.order_id">
             <td>#{{ order.order_id }}</td>
-            <td>{{ order.created_at }}</td>
+            <td>{{  formatDate(order.created_at) }}</td>
             <td>
               <!-- Join product names to display as a comma-separated list -->
               {{ order.products.map(product => product.product_name).join(', ') }}

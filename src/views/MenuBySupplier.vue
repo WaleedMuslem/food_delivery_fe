@@ -1,7 +1,7 @@
 <template>
     <div class="bg-white">
       <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <h2 class="text-2xl font-bold tracking-tight text-gray-900">mneus for </h2>
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">{{ supplier_name }} items </h2>
   
         <!-- Adjusted grid classes to show 3 cards per line on larger screens -->
         <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
@@ -29,12 +29,12 @@
               <div class="mt-4 flex items-center justify-between space-x-4">
                 <button 
                   @click="decreaseQuantity(item.ID,item.price)" 
-                  class="px-3 py-1 bg-gray-300 rounded-md hover:bg-gray-400"
+                  class="px-3 py-1 bg-gray-300 rounded-md hover:bg-primeColor-900"
                 >-</button>
                 <span class="text-lg">{{ item.quantity || 0 }}</span>
                 <button 
                   @click="increaseQuantity(item.ID,item.price)" 
-                  class="px-3 py-1 bg-gray-300 rounded-md hover:bg-gray-400"
+                  class="px-3 py-1 bg-gray-300 rounded-md hover:bg-primeColor-900"
                 >+</button>
               </div>
             </div>
@@ -54,6 +54,7 @@
   const route = useRoute()
   const id = route.params.supplierId
   const menu = ref([])
+  const supplier_name = ref("")
   const cartID = localStorage.getItem('cart_id');
 
   
@@ -65,8 +66,10 @@
     try {
       const response = await fetchWithAuth(`https://localhost:443/api/supplier/${id}/menu`)
 
-      console.log(id)
       menu.value = response
+      supplier_name.value = menu.value[0].supplier_name
+      console.log(menu.value)
+      // menu.value.sort((a, b) => a.item.ID - b.item.ID)
     } catch (error) {
       console.error('Error fetching menu:', error)
     }
@@ -106,6 +109,20 @@
     quantities.value[id]--
 
     try {
+
+      if (quantities.value[id] == 0){
+
+        const response = await fetchWithAuth(`https://localhost:443/api/cart/removeItem`,{
+            method: 'POST',                  // Set the HTTP method (POST, PUT, etc.)
+            body: JSON.stringify({
+              cart_id: parseInt(cartID,10),
+              product_id: id  // Add your actual product_id value here
+              })   // Stringify the body data
+        });
+        eventCart.refreshCart(); // Trigger refresh event
+        await fetchMenu()
+      
+    } else{
       // Send API request to remove item from the cart
       await fetchWithAuth('https://localhost:443/api/cart/additem', {
         method: 'POST',
@@ -119,8 +136,8 @@
       console.log(`Item ${id} removed from cart.`)
       eventCart.refreshCart(); // Trigger refresh event
       await fetchMenu()
+    }
 
-      
     } catch (error) {
       console.error('Error removing item from cart:', error)
     }

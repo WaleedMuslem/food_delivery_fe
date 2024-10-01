@@ -18,7 +18,7 @@
                 <div class="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-4">
                   <div>
                     <h3 class="text-white text-lg font-semibold">{{ category.category_name }}</h3>
-                    <p class="text-sm text-gray-300">Shop now</p>
+                    <p class="text-sm text-gray-300">{{category.category_count}} items</p>
                   </div>
                 </div>
               </div>
